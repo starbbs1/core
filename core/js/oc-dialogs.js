@@ -110,7 +110,7 @@ var OCdialogs = {
 
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + content + '</div>';
+		var dialog_div = '<div id="' + dialog_name + '">' + content + '</div>';
 		if (modal === undefined) { modal = false };
 		$('body').append(dialog_div);
 		var buttonlist = [{
@@ -119,13 +119,11 @@ var OCdialogs = {
 		},
 		{
 			text: t('core', 'Cancel'),
-			click: function(){ $(dialog_id).dialog('close'); }
+			click: function(){ $(dialog_id).ocdialog('close'); }
 		}];
-		var dialog_height = ( $('tr', dialog_div).length + 1 ) * 30 + 120;
-		$(dialog_id).dialog({
-			width: (4/9) * $(document).width(),
-			height: dialog_height,
+		$(dialog_id).ocdialog({
 			modal: modal,
+			title: escapeHTML(title),
 			buttons: buttonlist
 		});
 		OCdialogs.dialogs_counter++;
@@ -143,7 +141,7 @@ var OCdialogs = {
 		var dialog_id = '#' + dialog_name;
 		var dialog_content = '<button id="dirup">↑</button><select id="dirtree"></select><div id="filelist"></div>';
 		var dialog_loader = '<div class="filepicker_loader"><img src="' + OC.filePath('gallery','img','loading.gif') + '"></div>';
-		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + dialog_content + dialog_loader + '</div>';
+		var dialog_div = '<div id="' + dialog_name + '">' + dialog_content + dialog_loader + '</div>';
 		if (modal === undefined) { modal = false };
 		if (multiselect === undefined) { multiselect = false };
 		if (mimetype_filter === undefined) { mimetype_filter = '' };
@@ -178,7 +176,7 @@ var OCdialogs = {
 					datapath += $(dialog_id+' .filepicker_element_selected .filename').text();
 				}
 				callback(datapath);
-				$(dialog_id).dialog('close');
+				$(dialog_id).ocdialog('close');
 			}
 		};
 		var buttonlist = [{
@@ -187,13 +185,12 @@ var OCdialogs = {
 			},
 			{
 			text: t('core', 'Cancel'), 
-			click: function(){$(dialog_id).dialog('close'); }
+			click: function(){$(dialog_id).ocdialog('close'); }
 		}];
 
-		$(dialog_id).dialog({
-			width: (4/9)*$(document).width(),
-			height: 420,
+		$(dialog_id).ocdialog({
 			modal: modal,
+			title: escapeHTML(title),
 			buttons: buttonlist
 		});
 		OCdialogs.dialogs_counter++;
@@ -205,7 +202,7 @@ var OCdialogs = {
 	message:function(content, title, dialog_type, buttons, callback, modal) {
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
-		var dialog_div = '<div id="' + dialog_name + '" title="' + escapeHTML(title) + '">' + content + '</div>';
+		var dialog_div = '<div id="' + dialog_name + '">' + content + '</div>';
 		if (modal === undefined) { modal = false };
 		$('body').append(dialog_div);
 		var buttonlist = [];
@@ -215,14 +212,14 @@ var OCdialogs = {
 					text: t('core', 'Yes'),
 					click: function(){
 						if (callback !== undefined) { callback(true) };
-						$(dialog_id).dialog('close');
+						$(dialog_id).ocdialog('close');
 					}
 				},
 				{
 					text: t('core', 'No'),
 					click: function(){
 						if (callback !== undefined) { callback(false) };
-						$(dialog_id).dialog('close');
+						$(dialog_id).ocdialog('close');
 					}
 				}];
 			break;
@@ -231,14 +228,14 @@ var OCdialogs = {
 				switch(dialog_type) {
 					case OCdialogs.ALERT_DIALOG:
 						functionToCall = function() {
-							$(dialog_id).dialog('close');
+							$(dialog_id).ocdialog('close');
 							if(callback !== undefined) { callback() };
 						};
 					break;
 					case OCdialogs.PROMPT_DIALOG:
 						buttonlist[1] = {
 							text: t('core', 'Cancel'),
-							click: function() { $(dialog_id).dialog('close'); }
+							click: function() { $(dialog_id).ocdialog('close'); }
 						};
 						functionToCall = function() { OCdialogs.prompt_ok_handler(callback, dialog_id); };
 					break;
@@ -250,9 +247,8 @@ var OCdialogs = {
 			break;
 		};
 
-		$(dialog_id).dialog({
-			width: (4/9) * $(document).width(),
-			height: 180,
+		$(dialog_id).ocdialog({
+			title: escapeHTML(title),
 			modal: modal,
 			buttons: buttonlist
 		});
@@ -277,7 +273,7 @@ var OCdialogs = {
 	},
 
 	prompt_ok_handler: function(callback, dialog_id) {
-		$(dialog_id).dialog('close');
+		$(dialog_id).ocdialog('close');
 		if (callback !== undefined) { callback($(dialog_id + " input#oc-dialog-prompt-input").val()) };
 	},
 
@@ -287,10 +283,10 @@ var OCdialogs = {
 			$(dialog_id + ' input, ' + dialog_id + ' select').each(function(index, element) {
 				valuelist[index] = { name: $(element).attr('name'), value: OCdialogs.determineValue(element) };
 			});
-			$(dialog_id).dialog('close');
+			$(dialog_id).ocdialog('close');
 			callback(valuelist);
 		} else {
-			$(dialog_id).dialog('close');
+			$(dialog_id).ocdialog('close');
 		}
 	},
 	/**
