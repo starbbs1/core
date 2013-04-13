@@ -140,8 +140,8 @@ var OCdialogs = {
 		var dialog_name = 'oc-dialog-' + OCdialogs.dialogs_counter + '-content';
 		var dialog_id = '#' + dialog_name;
 		var dialog_content = '<button id="dirup">↑</button><select id="dirtree"></select><div id="filelist"></div>';
-		var dialog_loader = '<div class="filepicker_loader"><img src="' + OC.filePath('gallery','img','loading.gif') + '"></div>';
-		var dialog_div = '<div id="' + dialog_name + '">' + dialog_content + dialog_loader + '</div>';
+		var dialog_loader = '<div class="filepicker_loader"><img src="' + OC.filePath('core','img','loading.gif') + '"></div>';
+		var dialog_div = '<div id="' + dialog_name + '" class="filepicker">' + dialog_content + dialog_loader + '</div>';
 		if (modal === undefined) { modal = false };
 		if (multiselect === undefined) { multiselect = false };
 		if (mimetype_filter === undefined) { mimetype_filter = '' };
@@ -189,6 +189,7 @@ var OCdialogs = {
 		}];
 
 		$(dialog_id).ocdialog({
+			width: (4/9)*$(document).width(),
 			modal: modal,
 			title: escapeHTML(title),
 			buttons: buttonlist
