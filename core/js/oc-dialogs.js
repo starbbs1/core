@@ -294,8 +294,10 @@ var OCdialogs = {
 	 * fills the filepicker with files
 	*/
 	fillFilePicker:function(request, dialog_content_id) {
-		var template_content = '<img src="*MIMETYPEICON*" style="margin: 2px 1em 0 4px;"><span class="filename">*NAME*</span><div style="float:right;margin-right:1em;">*LASTMODDATE*</div>';
-		var template = '<div data-entryname="*ENTRYNAME*" data-dcid="' + escapeHTML(dialog_content_id) + '" data="*ENTRYTYPE*">*CONTENT*</div>';
+		var template =
+			'<div data-entryname="{name}" data-dcid="' + escapeHTML(dialog_content_id) + '" data="{entrytype}">\
+			<img src="{mimetypeicon}" style="margin: 2px 1em 0 4px;"><span class="filename">{name}</span>\
+			<div style="float:right;margin-right:1em;">{lastmoddate}</div></div>';
 		var files = '';
 		var dirs = [];
 		var others = [];
@@ -308,8 +310,12 @@ var OCdialogs = {
 		});
 		var sorted = dirs.concat(others);
 		for (var i = 0; i < sorted.length; i++) {
-			files_content = template_content.replace('*LASTMODDATE*', OC.mtime2date(sorted[i].mtime)).replace('*NAME*', escapeHTML(sorted[i].name)).replace('*MIMETYPEICON*', sorted[i].mimetype_icon);
-			files += template.replace('*ENTRYNAME*', escapeHTML(sorted[i].name)).replace('*ENTRYTYPE*', escapeHTML(sorted[i].type)).replace('*CONTENT*', files_content);
+			files += $(template).octemplate({
+				name: sorted[i].name,
+				entrytype: sorted[i].type,
+				mimetypeicon: sorted[i].mimetype_icon,
+				lastmoddate: OC.mtime2date(sorted[i].mtime)
+			})[0]["outerHTML"];
 		}
 
 		$(dialog_content_id + ' #filelist').html(files);
@@ -323,10 +329,10 @@ var OCdialogs = {
 	 * fills the tree list with directories
 	*/
 	fillTreeList: function(request, dialog_id) {
-		var template = '<option value="*COUNT*">*NAME*</option>';
+		var template = '<option value="{count}">{name}</option>';
 		var paths = '<option value="0">' + escapeHTML($(dialog_id).data('path')) + '</option>';
 		$.each(request.data, function(index, file) {
-			paths += template.replace('*COUNT*', index).replace('*NAME*', escapeHTML(file.name));
+			paths += $(template).octemplate({count: index, name: file.name})[0]["outerHTML"];
 		});
 
 		$(dialog_id + ' #dirtree').html(paths);
