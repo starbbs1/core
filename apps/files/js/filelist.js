@@ -201,13 +201,21 @@ var FileList={
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
 				} else {
-					$.get(OC.filePath('files','ajax','rename.php'), { dir : $('#dir').val(), newname: newname, file: name },function(result) {
-						if (!result || result.status == 'error') {
-							OC.dialogs.alert(result.data.message, 'Error moving file');
-							newname = name;
-						}
+					$.ajax({
+						url: OC.filePath('files','ajax','rename.php'),
+						data: {
+							dir : $('#dir').val(),
+							newname: newname,
+							file: name
+						},
+						success: function(result) {
+							if (!result || result.status === 'error') {
+								OC.dialogs.alert(result.data.message, 'Error moving file');
+								newname = name;
+							}
+						},
+						async: false
 					});
-
 				}
 			}
 			tr.data('renaming',false);
