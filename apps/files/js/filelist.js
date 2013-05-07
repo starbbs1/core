@@ -210,7 +210,7 @@ var FileList={
 						},
 						success: function(result) {
 							if (!result || result.status === 'error') {
-								OC.dialogs.alert(result.data.message, t('files', 'Error moving file'));
+								OC.Notification.show(result.data.message);
 								newname = name;
 							}
 						},
