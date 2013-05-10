@@ -201,6 +201,7 @@ var FileList={
 				if (FileList.checkName(name, newname, false)) {
 					newname = name;
 				} else {
+					// save background image, because it's replaced by a spinner while async request
 					var oldBackgroundImage = td.css('background-image');
 					// mark as loading
 					td.css('background-image', 'url('+ OC.imagePath('core', 'loading.gif') + ')');
@@ -231,8 +232,9 @@ var FileList={
 									}
 									td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
 								}
+								tr.effect('highlight', {}, 10000);
 							}
-							// remove loading mark
+							// remove loading mark and recover old image
 							td.css('background-image', oldBackgroundImage);
 						}
 					});
