@@ -232,7 +232,11 @@ var FileList={
 									}
 									td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
 								}
-								tr.effect('highlight', {}, 10000);
+								tr.find('.fileactions').effect('highlight', {}, 5000);
+								tr.effect('highlight', {}, 5000, function(){
+									// hide notification
+									OC.Notification.hide();
+								});
 							}
 							// remove loading mark and recover old image
 							td.css('background-image', oldBackgroundImage);
