@@ -220,14 +220,14 @@ var FileList={
 								tr.attr('data-file', newname);
 								var path = td.children('a.name').attr('href');
 								td.children('a.name').attr('href', path.replace(encodeURIComponent(name), encodeURIComponent(newname)));
-								if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
+								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
 									var basename=newname.substr(0,newname.lastIndexOf('.'));
 								} else {
 									var basename=newname;
 								}
 								td.find('a.name span.nametext').text(basename);
-								if (newname.indexOf('.') > 0 && tr.data('type') != 'dir') {
-									if (td.find('a.name span.extension').length == 0 ) {
+								if (newname.indexOf('.') > 0 && tr.data('type') !== 'dir') {
+									if (td.find('a.name span.extension').length === 0 ) {
 										td.find('a.name span.nametext').append('<span class="extension"></span>');
 									}
 									td.find('a.name span.extension').text(newname.substr(newname.lastIndexOf('.')));
