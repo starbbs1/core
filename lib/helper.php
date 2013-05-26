@@ -322,7 +322,7 @@ class OC_Helper {
 			}
 			$files = scandir($src);
 			foreach ($files as $file) {
-				if ($file !== "." && $file !== "..") {
+				if (!isIgnoredDir($file)) {
 					self::copyr("$src/$file", "$dest/$file");
 				}
 			}
@@ -340,7 +340,7 @@ class OC_Helper {
 		if(is_dir($dir)) {
 			$files=scandir($dir);
 			foreach($files as $file) {
-				if ($file !== "." && $file !== "..") {
+				if (!isIgnoredDir($file)) {
 					self::rmdirr("$dir/$file");
 				}
 			}
